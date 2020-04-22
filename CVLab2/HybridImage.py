@@ -132,7 +132,6 @@ low = cv.imread("marilyn.jpg")
 high = high/255
 low = low/255
 
-# cat & dog size = 21
 lowpass = low_pass(low, 0, 21)
 highpass = high_pass(high, 0, 21)
 
