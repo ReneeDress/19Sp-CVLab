@@ -1,0 +1,46 @@
+from CVLab7.twofinal import two
+from CVLab7.twofinal import crop
+import cv2 as cv
+from matplotlib import pyplot as plt
+
+path = 'multi/Rainier/'
+img1 = cv.imread(path + 'Rainier1.png')
+img2 = cv.imread(path + 'Rainier2.png')
+img3 = cv.imread(path + 'Rainier3.png')
+img4 = cv.imread(path + 'Rainier4.png')
+img5 = cv.imread(path + 'Rainier5.png')
+img6 = cv.imread(path + 'Rainier6.png')
+direct1, warpImg1, grad1 = two(img1, img2)
+direct2, warpImg2, grad2 = two(img2, img3)
+direct3, warpImg3, grad3 = two(img3, img4)
+direct4, warpImg4, grad4 = two(img4, img5)
+direct5, warpImg5, grad5 = two(img5, img6)
+direct11, warpImg11, grad11 = two(direct1, direct2)
+direct22, warpImg22, grad22 = two(direct2, direct3)
+direct33, warpImg33, grad33 = two(direct3, direct4)
+direct44, warpImg44, grad44 = two(direct4, direct5)
+direct111, warpImg111, grad111 = two(direct11, direct22)
+direct222, warpImg222, grad222 = two(direct22, direct33)
+direct333, warpImg333, grad333 = two(direct33, direct44)
+direct1111, warpImg1111, grad1111 = two(direct111, direct222)
+direct2222, warpImg2222, grad2222 = two(direct222, direct333)
+direct, warpImg, grad = two(direct1111, direct2222)
+
+out1 = cv.cvtColor(direct, cv.COLOR_BGR2RGB)
+plt.subplot(311)
+plt.imshow(out1, )
+plt.axis('off')
+out3 = cv.cvtColor(grad, cv.COLOR_GRAY2RGB)
+plt.subplot(312)
+plt.imshow(out3, )
+plt.axis('off')
+out2 = cv.cvtColor(warpImg, cv.COLOR_BGR2RGB)
+plt.subplot(313)
+plt.imshow(out2, )
+plt.axis('off')
+plt.show()
+
+cropImg = crop(warpImg)
+cv.imshow('crop', cropImg)
+cv.waitKey()
+cv.imwrite(path + 'Rainier.png', cropImg)
